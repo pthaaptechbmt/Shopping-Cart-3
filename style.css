@@ -254,14 +254,12 @@ body {
 .cart__coupon-help:before {
   content: attr(data-content);
   position: absolute;
-  text-overflow: ellipsis;
   content: attr(data-content);
   background-color: #05bcc5;
   color: #ffffff;
   padding: 0 3px;
   font-size: 12px;
-  top: -25px;
-  transform: translateX(-40%);
+  transform: translate(20%, -20%);
   white-space: nowrap;
   border-radius: 3px;
   transition: all 0.5s ease 0s;
@@ -271,6 +269,29 @@ body {
 .cart__coupon-help:hover:before {
   visibility: visible;
   opacity: 1;
+}
+
+.coupon__list {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  /* height: 200px; */
+  border-radius: 3px;
+  background-color: #fff;
+  list-style: none;
+  padding: 10px;
+  border: 1px solid red;
+}
+.coupon__item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid blue;
+}
+
+.coupon__value {
 }
 .cart__coupon-input {
   outline: none;
