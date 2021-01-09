@@ -1,0 +1,331 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  line-height: 1.5;
+}
+.background {
+  height: 100vh;
+  background-image: url(./background.jpg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  filter: blur(5px);
+  position: relative;
+}
+.cart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  width: 400px;
+  padding: 20px;
+}
+.cart__header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #888;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart__header span {
+  font-size: 13px;
+  font-weight: 500;
+}
+.cart__item {
+  padding-top: 15px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+.cart__item:not(:first-child) {
+  border-top: 0.5px solid #b8b8b8;
+}
+.cart__image {
+  margin-right: 15px;
+  width: 60px;
+  position: relative;
+}
+.cart__discount {
+  right: -4px;
+  position: absolute;
+  top: -10px;
+  font-size: 10px;
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  background: #c31616;
+  border-radius: 50%;
+  line-height: 25px;
+  font-weight: 500;
+  color: #ffffff;
+  text-align: center;
+}
+.cart__image img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.cart__item-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+.cart__item-title {
+  font-size: 14px;
+}
+.cart__item-description {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.cart__item-description span {
+  text-decoration: line-through;
+  margin-left: 5px;
+  font-size: 12px;
+
+  color: #888;
+}
+.cart__item-remove {
+  cursor: pointer;
+  text-align: center;
+  font-size: 12px;
+  border: none;
+  background: none;
+  color: #d14141;
+  outline: none;
+}
+
+.cart__item-control {
+  display: flex;
+  width: 90px;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.cart__item-quantity {
+  width: 35px;
+  text-align: center;
+  outline: none;
+  font-size: 11px;
+  padding: 2px 0;
+  border: 1px solid #b8b8b8;
+}
+.cart__item-quantity:focus {
+  background-color: #05bcc5;
+  color: #fff;
+  outline: none;
+  border: none;
+}
+.cart__item-increase,
+.cart__item-decrease {
+  cursor: pointer;
+  text-align: center;
+  border: none;
+  outline: none;
+  width: 20px;
+  height: 20px;
+  background: #05bcc5;
+  font-size: 18px;
+  color: #fff;
+}
+.cart__item-price {
+  text-align: right;
+  width: 50px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.cart__footer {
+  padding-top: 20px;
+  border-top: 1px solid #888;
+  line-height: 1.6;
+}
+
+.cart__subtotal,
+.cart__shipping,
+.cart__total,
+.cart__coupon-header,
+.cart__promo {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+}
+.cart__subtotal h4,
+.cart__shipping h4,
+.cart__coupon h4,
+.cart__promo h4 {
+  font-size: 12px;
+  font-weight: 400;
+}
+.cart__subtotal span,
+.cart__shipping span,
+.cart__promo span {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.cart__total span {
+  font-weight: 600;
+}
+
+.cart__checkout {
+  text-align: center;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px 0;
+  border: none;
+  outline: none;
+  background-color: #05bcc5;
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+}
+.cart__empty {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.cart__empty img {
+  width: 150px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease-in-out;
+}
+.cart__empty h4 {
+  font-weight: 400;
+  transition: all 0.3s ease-in-out;
+}
+
+.cart__shipping-select {
+  cursor: pointer;
+  outline: none;
+  text-align: center;
+  outline: none;
+  font-size: 11px;
+  padding: 2px 0;
+  border: 1px solid #b8b8b8;
+}
+
+.cart__coupon {
+  background-color: #d6d6d6;
+  padding: 10px;
+  border-radius: 3px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.cart__coupon-heading {
+  position: relative;
+}
+
+.cart__coupon-heading i {
+  position: absolute;
+  top: -5px;
+  right: -15px;
+  color: #2789df;
+  font-size: 16px;
+  cursor: pointer;
+}
+.cart__coupon-help {
+  position: relative;
+}
+
+.cart__coupon-help:before {
+  content: attr(data-content);
+  position: absolute;
+  text-overflow: ellipsis;
+  content: attr(data-content);
+  background-color: #05bcc5;
+  color: #ffffff;
+  padding: 0 3px;
+  font-size: 12px;
+  top: -25px;
+  transform: translateX(-40%);
+  white-space: nowrap;
+  border-radius: 3px;
+  transition: all 0.5s ease 0s;
+  visibility: hidden;
+  opacity: 0;
+}
+.cart__coupon-help:hover:before {
+  visibility: visible;
+  opacity: 1;
+}
+.cart__coupon-input {
+  outline: none;
+  font-size: 11px;
+  padding: 2px 0;
+  border: 1px solid #b8b8b8;
+  flex-grow: 1;
+  padding-left: 5px;
+  text-transform: uppercase;
+  margin-left: 20px;
+  margin-right: 8px;
+  height: 20px;
+}
+.cart__coupon-apply {
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: #05bcc5;
+  font-size: 12px;
+  color: #fff;
+  padding: 5px 10px;
+}
+.cart__coupon-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cart__coupon-item {
+  display: inline-block;
+  font-size: 12px;
+  background-color: #05bcc5;
+  color: #ffffff;
+  font-weight: 400;
+  padding: 3px 8px;
+  border-radius: 3px;
+  margin-right: 10px;
+  margin-top: 8px;
+  position: relative;
+}
+.cart__coupon-remove {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  text-align: center;
+  outline: none;
+  border: none;
+  border-radius: 50%;
+  color: #c31616;
+  font-size: 16px;
+}
