@@ -38,22 +38,28 @@ const coupons = [
     id: 1,
     title: "Happy New Year 2021",
     code: "HPNY2021",
+    description: "description 3",
     discount: 10,
     public: true,
+    expired: "2021-01-22T08:13:28.056Z",
   },
   {
     id: 2,
     title: "Merry Christmas",
+    description: "description 3",
     code: "MC2020",
     discount: 5,
     public: true,
+    expired: "2021-01-22T08:13:28.056Z",
   },
   {
     id: 3,
     title: "Loyal customers",
+    description: "description 3",
     code: "LC2021",
     discount: 5,
     public: false,
+    expired: "2021-01-22T08:13:28.056Z",
   },
 ];
 
@@ -319,6 +325,28 @@ function handlePromoDiscount() {
 function displayPromoList() {
   const couponHelpHTML = document.querySelector(".cart__coupon-help");
   const couponListHTML = document.querySelector(".coupon__list");
+
+  // Display promo code form coupons list
+  let couponsPublic = coupons.filter(function (coupon) {
+    return coupon.public === true;
+  });
+  let html = "";
+
+  couponsPublic.forEach(function ({ id, title, description, discount, expired }) {
+    html += `
+      <div class="coupon__item" data-id="${id}">
+        <span class="coupon__value">-${discount.toString().padStart(2, "0")}%</span>
+        <div class="coupon__content">
+          <span class="coupon__title">${title}</span>
+          <p class="coupon__description">${description}</p>
+          <div class="coupon__expired">Expiration date: <strong>${getDate(expired)}</strong></div>
+        </div>
+        <button class="coupon__button">Use</button>
+      </div>
+    `;
+  });
+  couponListHTML.innerHTML = html;
+  handlePromoList();
   const overlayHTML = document.querySelector(".cart--overlay");
   couponHelpHTML.addEventListener("click", function () {
     if (!couponListHTML.classList.contains("display--promo") && !overlayHTML.hasOwnProperty("style")) {
@@ -338,6 +366,22 @@ function displayPromoList() {
     }
   });
 }
+
+function handlePromoList() {
+  const couponListHTML = document.querySelector(".coupon__list");
+  const [...couponAddButtons] = couponListHTML.querySelectorAll(".coupon__button");
+  couponAddButtons.forEach(function (button) {
+    button.addEventListener("click", function (event) {});
+  });
+}
+
+function getDate(date) {
+  var dateObject = new Date(date);
+  return `${dateObject.getDate()}-${(dateObject.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}-${dateObject.getFullYear()}`;
+}
+
 displayCartContent(cart);
 handleCoupon();
 displayPromoList();

@@ -323,7 +323,7 @@ body {
   align-self: stretch;
   background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
   width: 60px;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 700;
   color: #ffffff;
   display: flex;
@@ -383,10 +383,14 @@ body {
   font-size: 12px;
 }
 .coupon__expired {
-  direction: rtl;
-  font-weight: 500;
+  /* direction: rtl; */
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
 }
-
+.coupon__expired strong {
+  font-size: 14px;
+}
 .coupon__button {
   cursor: pointer;
   text-align: center;
@@ -395,6 +399,7 @@ body {
   background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 5px 8px;
   color: #ffffff;
+  font-size: 12px;
   font-weight: 500;
   text-transform: uppercase;
   margin-left: 10px;
