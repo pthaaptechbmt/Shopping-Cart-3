@@ -315,5 +315,29 @@ function handlePromoDiscount() {
   promoDiscountHTML.textContent = `-$${promoDiscountValue.toFixed(2)}`;
   return promoDiscountValue;
 }
+
+function displayPromoList() {
+  const couponHelpHTML = document.querySelector(".cart__coupon-help");
+  const couponListHTML = document.querySelector(".coupon__list");
+  const overlayHTML = document.querySelector(".cart--overlay");
+  couponHelpHTML.addEventListener("click", function () {
+    if (!couponListHTML.classList.contains("display--promo") && !overlayHTML.hasOwnProperty("style")) {
+      overlayHTML.style.display = "block";
+      couponListHTML.classList.add("display--promo");
+    } else {
+      couponListHTML.classList.remove("display--promo");
+      overlayHTML.style.display = "none";
+    }
+  });
+
+  overlayHTML.addEventListener("click", function () {
+    console.log(couponListHTML.className);
+    if (couponListHTML.classList.contains("display--promo")) {
+      couponListHTML.classList.remove("display--promo");
+      overlayHTML.style.display = "none";
+    }
+  });
+}
 displayCartContent(cart);
 handleCoupon();
+displayPromoList();
