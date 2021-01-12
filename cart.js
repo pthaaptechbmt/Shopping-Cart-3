@@ -204,11 +204,12 @@ function handleInputsInCart() {
     if (inputHTML.classList.contains("cart__item-quantity")) {
       inputHTML.addEventListener("blur", function (event) {
         let id = event.target.parentElement.parentElement.dataset.id;
-        if (event.target.value < 2) {
-          alert("Số lượng sản phẩm tối thiểu là 1");
+        let valueInput = event.target.value;
+        let patternDigit = /^[0-9]*$/gi;
+        if (!patternDigit.test(valueInput) || valueInput < 1) {
+          alert("Please choose at least one product!");
           event.target.value = 1;
           updatePrice(id, event.target.value);
-          return;
         } else updatePrice(id, event.target.value);
       });
     }
@@ -262,18 +263,23 @@ function removeProductInCart(id) {
 
 const couponsAdded = [];
 
+function getCouponCodeFromInput() {
+  let couponCode = couponInputHTML.value;
+  return couponCode.toUpperCase();
+}
+
 function handleCoupon() {
-  couponAddButton.addEventListener("click", handleAddCoupon);
+  couponAddButton.addEventListener("click", function () {
+    handleAddCoupon(getCouponCodeFromInput());
+  });
   couponInputHTML.addEventListener("keyup", function (event) {
     if (event.keyCode === 13) {
-      handleAddCoupon();
+      handleAddCoupon(getCouponCodeFromInput());
     }
   });
 }
 
-function handleAddCoupon() {
-  let couponCode = couponInputHTML.value;
-  couponCode = couponCode.toUpperCase();
+function handleAddCoupon(couponCode) {
   let couponItem = coupons.filter(function ({ code }) {
     return couponCode === code;
   });
@@ -332,12 +338,12 @@ function displayPromoList() {
   });
   let html = "";
 
-  couponsPublic.forEach(function ({ id, title, description, discount, expired }) {
+  couponsPublic.forEach(function ({ id, code, title, description, discount, expired }) {
     html += `
-      <div class="coupon__item" data-id="${id}">
+      <div class="coupon__item">
         <span class="coupon__value">-${discount.toString().padStart(2, "0")}%</span>
         <div class="coupon__content">
-          <span class="coupon__title">${title}</span>
+          <div class="coupon__title"><span>${code}</span><br>${title}</div>
           <p class="coupon__description">${description}</p>
           <div class="coupon__expired">Expiration date: <strong>${getDate(expired)}</strong></div>
         </div>
@@ -359,7 +365,6 @@ function displayPromoList() {
   });
 
   overlayHTML.addEventListener("click", function () {
-    console.log(couponListHTML.className);
     if (couponListHTML.classList.contains("display--promo")) {
       couponListHTML.classList.remove("display--promo");
       overlayHTML.style.display = "none";
@@ -371,7 +376,11 @@ function handlePromoList() {
   const couponListHTML = document.querySelector(".coupon__list");
   const [...couponAddButtons] = couponListHTML.querySelectorAll(".coupon__button");
   couponAddButtons.forEach(function (button) {
-    button.addEventListener("click", function (event) {});
+    button.addEventListener("click", function (event) {
+      let couponContentHTML = event.target.previousElementSibling;
+      let couponCode = couponContentHTML.querySelector(".coupon__title span").textContent;
+      handleAddCoupon(couponCode);
+    });
   });
 }
 
