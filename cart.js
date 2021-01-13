@@ -117,7 +117,7 @@ function displayCartContent(items) {
           <button class="cart__item-decrease">+</button>
         </div>
 
-        <span class="cart__item-price">$${calculatePrice(price, discount) * quantity.toFixed(2)}</span>
+        <span class="cart__item-price">$${(calculatePrice(price, discount) * quantity).toFixed(2)}</span>
     </div>
         `;
       })
