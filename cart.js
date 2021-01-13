@@ -62,9 +62,6 @@ const coupons = [
     expired: "2021-01-22T08:13:28.056Z",
   },
 ];
-
-const cart = [...products];
-
 const shippingMethod = document.querySelector(".cart__shipping-select");
 const shippingHTML = document.querySelector(".cart__shipping span");
 const totalHTML = document.querySelector(".cart__total span");
@@ -75,6 +72,20 @@ const couponList = cartCoupon.querySelector(".cart__coupon-list");
 const couponAddButton = cartCoupon.querySelector(".cart__coupon-apply");
 const couponInputHTML = cartCoupon.querySelector(".cart__coupon-input");
 const promoDiscountHTML = document.querySelector(".cart__promo span");
+
+const cart = products.map(function (product) {
+  return { ...product, quantity: 1 };
+});
+
+function saveItemsToLocalStorage(items) {
+  localStorage.setItem("carts", JSON.stringify(items));
+}
+function getItemsFromLocalStorage(nameItems) {
+  let items = localStorage.getItem(nameItems);
+  return items ? JSON.parse(items) : [];
+}
+
+saveItemsToLocalStorage(cart);
 
 function calculatePrice(price, discount) {
   if (discount) return (price * (100 - discount)) / 100;
@@ -87,7 +98,7 @@ function displayCartContent(items) {
   const cartContentHTML = document.querySelector(".cart__content");
   if (Array.isArray(items) && items.length) {
     let html = items
-      .map(function ({ id, image, title, description, price, discount }) {
+      .map(function ({ id, image, title, description, price, discount, quantity }) {
         return `
     <div class="cart__item" data-id="${id}">
         <div class="cart__image">
@@ -102,11 +113,11 @@ function displayCartContent(items) {
 
         <div class="cart__item-control">
           <button class="cart__item-increase">-</button>
-          <input type="text" class="cart__item-quantity" value="1" />
+          <input type="text" class="cart__item-quantity" value="${quantity}" />
           <button class="cart__item-decrease">+</button>
         </div>
 
-        <span class="cart__item-price">$${calculatePrice(price, discount).toFixed(2)}</span>
+        <span class="cart__item-price">$${calculatePrice(price, discount) * quantity.toFixed(2)}</span>
     </div>
         `;
       })
@@ -130,24 +141,25 @@ function displayCartContent(items) {
 
 function displayTotalItems() {
   let totalItem = 0;
-  cart.forEach(function (item) {
+  getItemsFromLocalStorage("carts").forEach(function (item) {
     totalItem++;
   });
   return totalItem;
 }
 
 function displayDiscount() {
-  for (let i = 0; i < cart.length; i++) {
-    if (cart[i].discount) {
-      let item = document.querySelector(`.cart__item[data-id="${cart[i].id}"]`);
+  let carts = getItemsFromLocalStorage("carts");
+  for (let i = 0; i < carts.length; i++) {
+    if (carts[i].discount) {
+      let item = document.querySelector(`.cart__item[data-id="${carts[i].id}"]`);
 
       let spanDiscount = document.createElement("span");
       spanDiscount.classList.add("cart__discount");
-      spanDiscount.textContent = `-${cart[i].discount}%`;
+      spanDiscount.textContent = `-${carts[i].discount}%`;
       item.querySelector(".cart__image").appendChild(spanDiscount);
 
       let spanPrice = document.createElement("span");
-      spanPrice.textContent = `$${cart[i].price.toFixed(2)}`;
+      spanPrice.textContent = `$${carts[i].price.toFixed(2)}`;
       item.querySelector(".cart__item-description").appendChild(spanPrice);
     }
   }
@@ -247,18 +259,25 @@ function handleButtonsInCart() {
 function updatePrice(id, quantity) {
   const item = document.querySelector(`.cart__item[data-id='${id}']`);
   const cartPrice = item.querySelector(".cart__item-price");
-  let product = products.filter(function (product) {
+  let carts = getItemsFromLocalStorage("carts");
+  let productIndex = carts.findIndex(function (product) {
     return product.id === parseInt(id);
   });
-  cartPrice.textContent = `$${(calculatePrice(product[0].price, product[0].discount) * quantity).toFixed(2)}`;
+  carts[productIndex].quantity = quantity;
+  saveItemsToLocalStorage(carts);
+  cartPrice.textContent = `$${(
+    calculatePrice(carts[productIndex].price, carts[productIndex].discount) * quantity
+  ).toFixed(2)}`;
   displayCartFooter();
 }
 
 function removeProductInCart(id) {
-  for (let i = 0; i < cart.length; i++) {
-    if (cart[i].id === parseInt(id)) cart.splice(i, 1);
+  let carts = getItemsFromLocalStorage("carts");
+  for (let i = 0; i < carts.length; i++) {
+    if (carts[i].id === parseInt(id)) carts.splice(i, 1);
   }
-  displayCartContent(cart);
+  saveItemsToLocalStorage(carts);
+  displayCartContent(carts);
 }
 
 const couponsAdded = [];
@@ -391,6 +410,6 @@ function getDate(date) {
     .padStart(2, "0")}-${dateObject.getFullYear()}`;
 }
 
-displayCartContent(cart);
+displayCartContent(getItemsFromLocalStorage("carts"));
 handleCoupon();
 displayPromoList();
